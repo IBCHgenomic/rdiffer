@@ -4,6 +4,29 @@
 
 ![](https://github.com/IBCHgenomic/eVaiutilities/blob/main/logo.png)
 
+```
+rdiffer (main) ✗ Rscript --vanilla rdiffer.R
+Usage: usage:
+    rdiffer: Converting differntial matrix to geneames for extensive plotting of differential expression results.
+    Project PI and Informal queries: Prof. Luiza Handschuh: luizahan@ibch.poznan.pl.
+    Code related queries: Dr. Gaurav Sablok: gsablok@ibch.poznan.pl. [options]
+
+
+Options:
+	-f CHARACTER, --file=CHARACTER
+		dataset file name
+
+	-o CHARACTER, --out=CHARACTER
+		output file name [default= out.txt]
+
+	-h, --help
+		Show this help message and exit
+```
+
+```
+Rscript --vanilla rdiffer.R -f ./sample-files/samplefile.matrix -o annotatedgenes.txt
+```
+
 - Acknowledgements: MOSAIC platform, developed as part of the ECBiG-MOSAIC project (POIR.04.02.00-00-D017/20), co-financed by the European Regional Development Fund (ERDF) under the Smart Growth Operational Programme 2014-2020, Measure 4.2 for the development of modern research infrastructure in the science sector.
 - Project PI and Informal queries: Prof. Luiza Handschuh: luizahan@ibch.poznan.pl.
 - Code related queries: Dr. Gaurav Sablok: gsablok@ibch.poznan.pl.
