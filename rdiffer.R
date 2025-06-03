@@ -24,19 +24,24 @@ option_list <- list(
     make_option(c("-d", "--defile"),
         type = "character", default = NULL,
         help = "dataset file name", metavar = "character"
+    ),
+    make_option(c("-c", "--countfile"),
+        type = "character", default = NULL,
+        help = "count dataset file", metavar = "character"
     )
 )
 opt_parser <- OptionParser(usage = "usage:
     rdiffer: Converting differntial matrix to geneames for extensive plotting of differential expression results.
     Project PI and Informal queries: Prof. Luiza Handschuh: luizahan@ibch.poznan.pl.
     Code related queries: Dr. Gaurav Sablok: gsablok@ibch.poznan.pl. [options]", option_list = option_list)
-opt <- parse_args(opt_parser)
+pt <- parse_args(opt_parser, positional_arguments = TRUE)
+
 if (is.null(opt$file)) {
     print_help(opt_parser)
     stop("At least one argument must be supplied (input file).n", call. = FALSE)
 }
 
-if (!is.null(opt$file) && is.null(opt$defile)) {
+if (!is.null(opt$file) && !is.null(opt$out)) {
     readfile <- read.delim(opt$file)
     oldrownames <- rownames(readfile)
     ensembldataframe <- as.data.frame(readfile)
@@ -67,8 +72,8 @@ if (!is.null(opt$file) && is.null(opt$defile)) {
     )
 }
 
-if (!is.null(opt$defile) && is.null(opt$file)) {
-    readfile <- read.delim(opt$file)
+if (!is.null(opt$defile) && !is.null(opt$out)) {
+    readfile <- read.delim(opt$defile)
     oldrownames <- rownames(readfile)
     ensembldataframe <- as.data.frame(readfile)
     newrownames <- vector(length = length(oldrownames))
@@ -91,7 +96,38 @@ if (!is.null(opt$defile) && is.null(opt$file)) {
     output <- cbind(genenames, ensembldataframe)
     ensemblid <- rownames(output)
     finaloutput_with_genes <- as.data.frame(cbind(ensemblid, output))
-    finaloutput_without_names <- as.data.frame(output)
+    finaloutput_without_names <- as.data.frame(output[-3])
+    write_delim(finaloutput_with_genes, file = opt$out, delim = " ")
+    write_delim(finaloutput_without_names,
+        file = "outputmatrix_without_names.txt", delim = " "
+    )
+}
+
+if (!is.null(opt$countfile) && is.null(opt$out)) {
+    readfile <- read.delim(opt$countfile)
+    ensembldataframe <- as.data.frame(readfile)
+    oldrownames <- ensembldataframe[, 1]
+    newrownames <- vector(length = length(oldrownames))
+    for (i in seq_along(oldrownames)) {
+        newrownames[i] <- str_split(oldrownames[i], "\\.")[[1]][1]
+    }
+    symbols <- mapIds(org.Hs.eg.db,
+        keys = newrownames,
+        column = c("SYMBOL"), keytype = "ENSEMBL"
+    )
+    symbolsdataframe <- as.data.frame(symbols)
+    symbolsdataframe_rownames <- rownames(symbolsdataframe)
+    namesgenesdataframe <- symbolsdataframe[, 1]
+    genenames <- vector(length = length(symbolsdataframe_rownames))
+    for (i in seq_along(symbolsdataframe_rownames)) {
+        if (symbolsdataframe_rownames[i] == newrownames[i]) {
+            genenames[i] <- namesgenesdataframe[i]
+        }
+    }
+    output <- cbind(genenames, ensembldataframe)
+    ensemblid <- rownames(output)
+    finaloutput_with_genes <- as.data.frame(cbind(ensemblid, output))
+    finaloutput_without_names <- as.data.frame(output[-3])
     write_delim(finaloutput_with_genes, file = opt$out, delim = " ")
     write_delim(finaloutput_without_names,
         file = "outputmatrix_without_names.txt", delim = " "
