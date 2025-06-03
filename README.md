@@ -1,6 +1,7 @@
 # rdiffer
 
-- analyzing the differential expression from isoform view.
+- analyzing the differential expression counts from isoform view.
+- tagging gene names to the differential expression results from isoform also.
 
 ![](https://github.com/IBCHgenomic/eVaiutilities/blob/main/logo.png)
 
