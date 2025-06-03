@@ -4,7 +4,7 @@
 # Instytut Chemii Bioorganicznej
 # Polskiej Akademii Nauk
 # ul. Noskowskiego 12/14 | 61-704, Poznań
-# Date: 2025-6-2
+# Date: 2025-6-3
 # make sure you have readr, optparse, stringr and human bioannotation installed
 
 suppressWarnings(suppressPackageStartupMessages(library(optparse)))
@@ -34,7 +34,7 @@ if (is.null(opt$file)) {
 }
 
 if (!is.null(opt$file) && !is.null(opt$out)) {
-    readfile <- read.delim(opt$file)
+    readfile <- read.delim(opt$DEfile)
     oldrownames <- rownames(readfile)
     ensembldataframe <- as.data.frame(readfile)
     newrownames <- vector(length = length(oldrownames))
@@ -57,7 +57,7 @@ if (!is.null(opt$file) && !is.null(opt$out)) {
     output <- cbind(genenames, ensembldataframe)
     ensemblid <- rownames(output)
     finaloutput_with_genes <- as.data.frame(cbind(ensemblid, output))
-    finaloutput_without_names <- as.data.frame(output)
+    finaloutput_without_names <- as.data.frame(output[-3])
     write_delim(finaloutput_with_genes, file = opt$out, delim = " ")
     write_delim(finaloutput_without_names,
         file = "outputmatrix_without_names.txt", delim = " "

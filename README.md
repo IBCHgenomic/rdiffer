@@ -2,6 +2,7 @@
 
 - analyzing the differential expression counts from isoform view.
 - tagging gene names to the differential expression results from isoform also.
+- supports all types of counts matrixes.
 
 ![](https://github.com/IBCHgenomic/eVaiutilities/blob/main/logo.png)
 
@@ -25,8 +26,9 @@ Options:
 ```
 
 ```
-Rscript --vanilla rdiffer.R -f ./sample-files/samplefile.matrix -o annotatedgenes.txt
-Rscript --vanilla rdiffer.R -f ./sample-files/DEmatrix.DE_results -o annotatedgenes.txt
+Rscript --vanilla rdiffer.R -f ./sample-files/samplefile.matrix -o outputmatrix_name
+Rscript --vanilla rdifferDE.R -f ./sample-files/samplefile.matrix -o outputmatrix_name
+Rscript --vanilla rdiffercount.R -f ./sample-files/additional.sample.matrix -o outputmatrix_name
 ```
 
 - it will generate two files one with the output name which the user has specified and that will have both the ENSEMBL and the genename and the other without names with only the annotated genenames.

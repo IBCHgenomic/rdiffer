@@ -4,7 +4,7 @@
 # Instytut Chemii Bioorganicznej
 # Polskiej Akademii Nauk
 # ul. Noskowskiego 12/14 | 61-704, Poznań
-# Date: 2025-6-2
+# Date: 2025-6-3
 # make sure you have readr, optparse, stringr and human bioannotation installed
 
 suppressWarnings(suppressPackageStartupMessages(library(optparse)))
@@ -33,10 +33,10 @@ if (is.null(opt$file)) {
     stop("At least one argument must be supplied (input file).n", call. = FALSE)
 }
 
-if (!is.null(opt$file) && !is.null(opt$out)) {
+if (!is.null(opt$file)) {
     readfile <- read.delim(opt$file)
-    oldrownames <- rownames(readfile)
     ensembldataframe <- as.data.frame(readfile)
+    oldrownames <- ensembldataframe[, 1]
     newrownames <- vector(length = length(oldrownames))
     for (i in seq_along(oldrownames)) {
         newrownames[i] <- str_split(oldrownames[i], "\\.")[[1]][1]
@@ -57,8 +57,8 @@ if (!is.null(opt$file) && !is.null(opt$out)) {
     output <- cbind(genenames, ensembldataframe)
     ensemblid <- rownames(output)
     finaloutput_with_genes <- as.data.frame(cbind(ensemblid, output))
-    finaloutput_without_names <- as.data.frame(output)
-    write_delim(finaloutput_with_genes, file = opt$out, delim = " ")
+    finaloutput_without_names <- as.data.frame(output[-3])
+    write_delim(finaloutput_with_genes[, -1], file = opt$out, delim = " ")
     write_delim(finaloutput_without_names,
         file = "outputmatrix_without_names.txt", delim = " "
     )
