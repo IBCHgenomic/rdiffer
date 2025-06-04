@@ -60,6 +60,6 @@ if (!is.null(opt$file) && !is.null(opt$out)) {
     finaloutput_without_names <- as.data.frame(output[-3])
     write_delim(finaloutput_with_genes, file = opt$out, delim = "\t")
     write_delim(finaloutput_without_names,
-        file = "outputmatrix_without_names.txt", delim = " "
+        file = "outputmatrix_without_names.txt", delim = "\t"
     )
 }
