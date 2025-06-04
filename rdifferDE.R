@@ -34,7 +34,7 @@ if (is.null(opt$file)) {
 }
 
 if (!is.null(opt$file) && !is.null(opt$out)) {
-    readfile <- read.delim(opt$DEfile)
+    readfile <- read.delim(opt$file)
     oldrownames <- rownames(readfile)
     ensembldataframe <- as.data.frame(readfile)
     newrownames <- vector(length = length(oldrownames))
