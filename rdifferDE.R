@@ -58,7 +58,7 @@ if (!is.null(opt$file) && !is.null(opt$out)) {
     ensemblid <- rownames(output)
     finaloutput_with_genes <- as.data.frame(cbind(ensemblid, output))
     finaloutput_without_names <- as.data.frame(output[-3])
-    write_delim(finaloutput_with_genes, file = opt$out, delim = " ")
+    write_delim(finaloutput_with_genes, file = opt$out, delim = "\t")
     write_delim(finaloutput_without_names,
         file = "outputmatrix_without_names.txt", delim = " "
     )
